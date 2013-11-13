@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+
+version="${2}"
+file_to_install="go${2}.darwin-amd64.tar.gz"
+
+export GOBREW_ROOT="$HOME/.gobrew"
+
+go_install(){
+    if [ -f "$GOBREW_ROOT/cache/$file_to_install" ]
+    then
+
+        mkdir -p "$HOME/.gobrew/versions/$version"
+        tar -zxf "$GOBREW_ROOT/cache/$file_to_install" -C "$GOBREW_ROOT/versions/$version" --strip-components 1 go/
+    else
+        echo "IN ELSE"
+        wget -P $HOME/.gobrew/cache http://go.googlecode.com/files/$file_to_install
+        tar -zxf "$GOBREW_ROOT/cache/$file_to_install" -C "$GOBREW_ROOT/versions/$version" --strip-components 1 go/
+    fi
+}
+
+list_installed(){
+
+    DIRS=`ls -l $GOBREW_ROOT/versions | egrep '^d' | awk '{print $9}'`
+
+    for DIR in $DIRS
+    do
+        echo ${DIR}
+    done
+}
+
+use_version(){
+   echo export GOROOT=\"'$HOME'/.gobrew/versions/$version\" >> "$HOME/.zshenv"
+   echo export PATH=\"'$GOROOT'/bin:'$PATH'\" >> "$HOME/.zshenv"
+   exec $SHELL
+   echo using $version
+}
+
+if [ "${1}" = "install" ]
+then
+    go_install
+elif [ "${1}" = "list" ]
+then
+    list_installed
+elif [ "${1}" = "use" ]
+then
+    use_version
+fi
