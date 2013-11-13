@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# Summary: Configure the shell environment for gobrew
+# Usage: eval "$(gobrew init - [<shell>])"
+
+# Bomb out if we hit an error, ever
+set -e
+
+# Verbose output in debug mode
+[ -n "$GOBREW_DEBUG" ] && {
+  set -x
+}
+
+# Figure out what we're gonna print
+print=""
+for args in "$@"; do
+  if [ "$args" = "-" ]; then
+    print=1
+    shift
+  fi
+done
+
+# Check for a shell
+shell="$1"
+if [ -z "$shell" ]; then
+  shell="$(basename "$SHELL")"
+fi
+
+# Helpers to get full path
+resolve_link() {
+  $(type -p greadlink readlink | head -1) $1
+}
+
+abs_dirname() {
+  local cwd="$(pwd)"
+  local path="$1"
+
+  while [ -n "$path" ]; do
+    cd "${path%/*}"
+    local name="${path##*/}"
+    path="$(resolve_link "$name" || true)"
+  done
+
+  pwd
+  cd "$cwd"
+}
+
+# Set the root of our gobrew install
+root="$(abs_dirname "$0")/.."
+
+if [ -z "$print" ]; then
+  case "$shell" in
+  bash )
+    profile='~/.bash_profile'
+    ;;
+  zsh )
+    profile='~/.zshrc'
+    ;;
+  ksh )
+    profile='~/.profile'
+    ;;
+  * )
+    profile='your profile'
+    ;;
+  esac
+
+  { echo "# Load gobrew automatically by adding"
+    echo "# the following to ${profile}:"
+    echo
+    echo 'eval "$(gobrew init -)"'
+    echo
+  } >&2
+
+  exit 1
+fi
+
+mkdir -p "${GOBREW_ROOT}/"{shims,versions,cache}
+
+if [[ ":${PATH}:" != *:"${GOBREW_ROOT}/shims":* ]]; then
+  echo 'export PATH="'${GOBREW_ROOT}'/shims:${PATH}"'
+fi
+
+echo 'gobrew rehash 2>/dev/null'

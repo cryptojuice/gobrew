@@ -1,1 +1,57 @@
 #! /usr/bin/env bash
+# Summary: Install a version of go.
+
+
+set -e
+
+[ -n "$GOBREW_DEBUG"] && {
+    set -x
+}
+
+version="$1"
+version_dir="$GOBREW_ROOT/versions/$version"
+
+OLDPWD=$(pwd)
+
+mkdir -p "$version_dir"
+cd "$version_dir"
+
+platform="$(uname -s | tr '[:upper:]' '[:lower:]')"
+
+if [ "$(uname -m)" = "x86_64" ]; then
+    arch="amd64"
+else
+    arch="386"
+fi
+
+download="https://go.googlecode.com/files/go${version}.${platform}-${arch}.tar.gz"
+
+set +e
+
+(
+    if type wget &>/dev/null; then
+        echo "Installing go${version}.${platform}-${arch}.tar.gz"
+        wget -P "$GOBREW_ROOT/cache" "${download}"
+        tar -zxf "$GOBREW_ROOT/cache/go${version}.${platform}-${arch}.tar.gz" --strip-components 1
+    elif type curl &>/dev/null; then
+        echo "Installing go${version}.${platform}.${arch}.tar.gz"
+        curl -s -f "$download" > "$GOBREW_ROOT/cache/go${version}.${platform}-${arch}.tar.gz"
+        tar -zxf "$GOBREW_ROOT/cache/go${version}.${platform}-${arch}.tar.gz" --strip-components 1
+    else
+        echo "error: please install \`curl\` or \`wget\` and try again" >&2
+        exit 1
+    fi
+    rm "$GOBREW_ROOT/cache/go${version}.${platform}-${arch}.tar.gz"
+) || \
+    {
+        cd $OLDPWD
+        rm -rf "$version_dir"
+
+        echo "gobrew: unable to install ${version} from binary, download not available"
+        exit 1
+    }
+
+echo "Installed ${version}"
+cd $OLDPWD
+
+exec "${GOBREW_ROOT}/bin/gobrew" rehash

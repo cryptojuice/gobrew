@@ -1,48 +1,78 @@
 #!/usr/bin/env bash
+set -e
+[ -n "$GOBREW_DEBUG" ] && set -x
 
-
-version="${2}"
-file_to_install="go${2}.darwin-amd64.tar.gz"
-
-export GOBREW_ROOT="$HOME/.gobrew"
-
-go_install(){
-    if [ -f "$GOBREW_ROOT/cache/$file_to_install" ]
-    then
-
-        mkdir -p "$HOME/.gobrew/versions/$version"
-        tar -zxf "$GOBREW_ROOT/cache/$file_to_install" -C "$GOBREW_ROOT/versions/$version" --strip-components 1 go/
-    else
-        echo "IN ELSE"
-        wget -P $HOME/.gobrew/cache http://go.googlecode.com/files/$file_to_install
-        tar -zxf "$GOBREW_ROOT/cache/$file_to_install" -C "$GOBREW_ROOT/versions/$version" --strip-components 1 go/
-    fi
+resolve_link() {
+  $(type -p greadlink readlink | head -1) "$1"
 }
 
-list_installed(){
+abs_dirname() {
+  local cwd="$(pwd)"
+  local path="$1"
 
-    DIRS=`ls -l $GOBREW_ROOT/versions | egrep '^d' | awk '{print $9}'`
+  while [ -n "$path" ]; do
+    cd "${path%/*}"
+    local name="${path##*/}"
+    path="$(resolve_link "$name" || true)"
+  done
 
-    for DIR in $DIRS
-    do
-        echo ${DIR}
-    done
+  pwd
+  cd "$cwd"
 }
 
-use_version(){
-   echo export GOROOT=\"'$HOME'/.gobrew/versions/$version\" >> "$HOME/.zshenv"
-   echo export PATH=\"'$GOROOT'/bin:'$PATH'\" >> "$HOME/.zshenv"
-   exec $SHELL
-   echo using $version
-}
-
-if [ "${1}" = "install" ]
-then
-    go_install
-elif [ "${1}" = "list" ]
-then
-    list_installed
-elif [ "${1}" = "use" ]
-then
-    use_version
+if [ -z "${GOBREW_ROOT}" ]; then
+  GOBREW_ROOT="${HOME}/.gobrew"
+else
+  GOBREW_ROOT="${GOBREW_ROOT%/}"
 fi
+export GOBREW_ROOT
+
+if [ -z "${GOBREW_DIR}" ]; then
+  GOBREW_DIR="$(pwd)"
+else
+  cd "$GOBREW_DIR" 2>/dev/null || {
+    echo "gobrew: cannot change working directory to \`$GOBREW_DIR'"
+    exit 1
+  } >&2
+  GOBREW_DIR="$(pwd)"
+  cd "$OLDPWD"
+fi
+export GOBREW_DIR
+
+
+shopt -s nullglob
+
+bin_path="$(abs_dirname "$0")"
+for plugin_bin in "${GOBREW_ROOT}/plugins/"*/bin; do
+  bin_path="${bin_path}:${plugin_bin}"
+done
+export PATH="${bin_path}:${PATH}"
+
+hook_path="${GOBREW_HOOK_PATH}:${GOBREW_ROOT}/gobrew.d:/usr/local/etc/gobrew.d:/etc/gobrew.d:/usr/lib/gobrew/hooks"
+for plugin_hook in "${GOBREW_ROOT}/plugins/"*/etc/gobrew.d; do
+  hook_path="${hook_path}:${plugin_hook}"
+done
+export GOBREW_HOOK_PATH="$hook_path"
+
+shopt -u nullglob
+
+
+command="$1"
+case "$command" in
+"" | "-h" | "--help" )
+  echo -e "$(gobrew---version)\n$(gobrew-help)" >&2
+  ;;
+"-v" )
+  exec gobrew---version
+  ;;
+* )
+  command_path="$(command -v "gobrew-$command" || true)"
+  if [ -z "$command_path" ]; then
+    echo "gobrew: no such command \`$command'" >&2
+    exit 1
+  fi
+
+  shift 1
+  exec "$command_path" "$@"
+  ;;
+esac

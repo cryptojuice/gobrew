@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+#
+# Summary: Execute a command from a particular Go version.
+#
+# Usage: gobrew exec <command> [<args>]
+#
+# Puts the current Go version onto PATH and runs the specified command.
+
+# Bomb out if we hit an error, ever
+set -e
+
+# Verbose output in debug mode
+[ -n "$GOBREW_DEBUG" ] && {
+  set -x
+}
+
+# Set the current Go version
+if [ -z "$GOBREW_VERSION" ]; then
+  GOBREW_VERSION="$(gobrew version)"
+
+  # Couldn't infer from a file either
+  if [ -z "$GOBREW_VERSION" ]; then
+    echo "gobrew: no \`GOBREW_VERSION' configured" >&2
+    exit 1
+  fi
+fi
+
+GOROOT="$GOBREW_ROOT/versions/$GOBREW_VERSION"
+
+# if the specified Go version lacks this bin, bail
+if [ ! -x "$GOROOT/bin/$1" ]; then
+  echo "gobrew: \`$1' does not exist for $GOBREW_VERSION" >&2
+
+  for version in "$(gobrew versions)"; do
+    if [ -x "$GOBREW_ROOT/versions/$version/bin/$1" ]; then
+      echo "  $version" >&2
+    fi
+  done
+
+  exit 1
+fi
+
+export GOBREW_VERSION GOROOT
+
+# Put our bindir onto PATH
+export PATH="$GOROOT/bin:$PATH"
+
+exec "$@"

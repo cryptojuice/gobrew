@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+# Summary: Rehash gobrew shims (run this after installing executables)
+
+# Bomb out if we hit an error, ever
+set -e
+
+# Verbose output in debug mode
+[ -n "$GOBREW_DEBUG" ] && {
+  set -x
+}
+
+# Create the shims directory if it doesn't already exist.
+SHIM_PATH="${GOBREW_ROOT}/shims"
+mkdir -p "$SHIM_PATH"
+
+# Ensure only one rehash is running at a time
+PROTOTYPE_SHIM_PATH="${SHIM_PATH}/.gobrew-shim"
+
+set -o noclobber
+{ echo > "$PROTOTYPE_SHIM_PATH"
+} 2>/dev/null ||
+{ echo "gobrew: cannot rehash: $PROTOTYPE_SHIM_PATH exists"
+  exit 1
+} >&2
+set +o noclobber
+
+# Clean up our lockfile if we fail
+trap remove_prototype_shim EXIT
+
+remove_prototype_shim() {
+  rm -f "$PROTOTYPE_SHIM_PATH"
+}
+
+# Helper to create shim bins
+create_prototype_shim() {
+  cat > "$PROTOTYPE_SHIM_PATH" <<SH
+#!/usr/bin/env bash
+
+# Bomb out if we hit an error, ever
+set -e
+
+# Verbose output in debug mode
+[ -n "$GOBREW_DEBUG" ] && {
+  set -x
+}
+
+program="\${0##*/}"
+
+if [ "\$program" = "go" ]; then
+  for arg; do
+    case "\$arg" in
+    -e* | -- ) break ;;
+    */* )
+      if [ -f "\$arg" ]; then
+        export GOBREW_DIR="\${arg%/*}"
+        break
+      fi
+      ;;
+    esac
+  done
+fi
+
+export GOBREW_ROOT="$GOBREW_ROOT"
+
+exec "$(command -v gobrew)" exec "\$program" "\$@"
+SH
+
+  chmod +x "$PROTOTYPE_SHIM_PATH"
+}
+
+# Helper to remove shims whose content differs from prototype
+remove_outdated_shims() {
+  for shim in *; do
+    if ! diff "$PROTOTYPE_SHIM_PATH" "$shim" >/dev/null 2>&1; then
+      for shim in *; do rm -f "$shim"; done
+    fi
+    break
+  done
+}
+
+make_shims() {
+  local shims="$@"
+
+  for file in $shims; do
+    local shim="${file##*/}"
+    register_shim "$shim"
+  done
+}
+
+# Track registered shims
+registered_shims=()
+registered_shims_index=""
+
+# Helper to register a shim
+register_shim() {
+  local shim="$@"
+  registered_shims["${#registered_shims[@]}"]="$shim"
+  registered_shims_index="$registered_shims_index/$shim/"
+}
+
+# Helper to install registered shims
+install_registered_shims() {
+  local shim
+  for shim in "${registered_shims[@]}"; do
+    [ -e "$shim" ] || ln -f "$PROTOTYPE_SHIM_PATH" "$shim"
+  done
+}
+
+# Helper to remove stale shims
+remove_stale_shims() {
+  local shim
+  for shim in *; do
+    if [[ "$registered_shims_index" != *"/$shim/"* ]]; then
+      rm -f "$shim"
+    fi
+  done
+}
+
+# Change to the shims directory.
+cd "$SHIM_PATH"
+shopt -s nullglob
+
+# Create the prototype shim, then register shims for all known
+# executables.
+create_prototype_shim
+remove_outdated_shims
+make_shims ../versions/*/bin/*
+
+# Restore the previous working directory.
+cd "$OLDPWD"
+
+# Change back to the shims directory to install the registered shims
+# and remove stale shims.
+cd "$SHIM_PATH"
+install_registered_shims
+remove_stale_shims

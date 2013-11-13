@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Summary: Show the current Go version.
+
+# Bomb out if we hit an error, ever
+set -e
+
+# Verbose output in debug mode
+[ -n "$GOBREW_DEBUG" ] && {
+  set -x
+}
+
+if [ -z "${GOBREW_VERSION}" ]; then
+  export GOBREW_VERSION_FILE="$(gobrew-version-file)"
+  export GOBREW_VERSION="$(gobrew-version-file-read "$GOBREW_VERSION_FILE" || true)"
+fi
+
+version_exists() {
+  local version="$1"
+  [ -n "${version}" ] && \
+    [ -d "${GOBREW_ROOT}/versions/${version}" ]
+}
+
+no_versions() {
+  [ -z "$(gobrew-versions)" ]
+}
+
+if [ -z "$GOBREW_VERSION" ]; then
+  echo "gobrew: couldn't find any version specified for use" >&2
+  exit 1
+elif version_exists "$GOBREW_VERSION"; then
+  echo "$GOBREW_VERSION"
+elif no_versions; then
+  echo "gobrew: no versions of Go are currently installed" >&2
+  exit 1
+else
+  echo "gobrew: version \`$GOBREW_VERSION' is not installed" >&2
+  exit 1
+fi

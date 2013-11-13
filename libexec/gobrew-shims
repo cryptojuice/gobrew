@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Summary: List existing gobrew shims
+# Usage: gobrew shims [--short]
+
+set -e
+[ -n "$GOBREW_DEBUG" ] && set -x
+
+# Provide gobrew completions
+if [ "$1" = "--complete" ]; then
+  echo --short
+  exit
+fi
+
+shopt -s nullglob
+
+for command in "${GOBREW_ROOT}/shims/"*; do
+  if [ "$1" = "--short" ]; then
+    echo "${command##*/}"
+  else
+    echo "$command"
+  fi
+done | sort

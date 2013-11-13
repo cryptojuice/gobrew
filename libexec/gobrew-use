@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -e
+[ -n "$GOBREW_DEBUG" ] && set -x
+
+#if [ "$1" = "--complete" ]; then
+#    echo system
+#    exec gobrew-versions --bare
+#fi
+
+version=$1
+VERSIONS=`ls -l $GOBREW_ROOT/versions | egrep '^d' | awk '{print $9}'`
+
+for v in $VERSIONS
+do
+    if [ -z $1 ]; then
+        echo "gobrew: please specifiy version to use."
+        exit 0
+    elif [ "$v" = $1 ]; then
+        sed -i.bak "1s/.*/$1/g" "$GOBREW_ROOT/version"
+        exit 1
+    else
+        echo "gobrew: $1 not installed."
+        exit 0 
+    fi
+done
