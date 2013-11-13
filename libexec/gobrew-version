@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Summary: Show the current Go version.
+# Summary: Show the current Go version in use.
 
 # Bomb out if we hit an error, ever
 set -e
