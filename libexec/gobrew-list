@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-
-DIRS=`ls -l $GOBREW_ROOT/versions | egrep '^d' | awk '{print $9}'`
-
-for DIR in $DIRS
-do
-    echo ${DIR}
-done
