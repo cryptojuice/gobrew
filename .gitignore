@@ -1,3 +1,6 @@
 .DS_Store
 versions/*
+version
+version.bak
+shims/*
 cache/*
