@@ -1,5 +1,5 @@
-#gobrew
-=======
+gobrew
+======
 
 gobrew lets you easily switch between multiple versions of go. It is based on [rbenv](https://github.com/sstephenson/rbenv) and [pyenv](https://github.com/yyuu/pyenv).
 
