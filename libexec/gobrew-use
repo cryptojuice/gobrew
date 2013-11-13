@@ -20,8 +20,8 @@ do
     elif [ "$v" = $1 ]; then
         sed -i.bak "1s/.*/$1/g" "$GOBREW_ROOT/version"
         exit 1
-    else
-        echo "gobrew: $1 not installed."
-        exit 0 
     fi
 done
+
+echo "gobrew: $1 not installed."
+exit 0
