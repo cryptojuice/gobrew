@@ -1,7 +1,7 @@
 #gobrew
 =======
 
-gobrew lets you easily switch between multiple versions of go. It is based of [rbenv](https://github.com/sstephenson/rbenv) and [pyenv](https://github.com/yyuu/pyenv).
+gobrew lets you easily switch between multiple versions of go. It is based on [rbenv](https://github.com/sstephenson/rbenv) and [pyenv](https://github.com/yyuu/pyenv).
 
 <img src="http://i.imgur.com/ySRSdPg.png" width="650">
 
@@ -10,8 +10,8 @@ gobrew lets you easily switch between multiple versions of go. It is based of [r
 
 1. Check out gobrew where you want it installed. 
 
-       $ cd
-       $ git clone git://github.com/grobins2/gobrew.git ~/.gobrew
+        $ cd
+        $ git clone git://github.com/grobins2/gobrew.git ~/.gobrew
        
 2.  Add the following to your shell config. 
 
