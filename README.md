@@ -41,11 +41,13 @@ Sets which version of Go to use globally.
         $ gobrew use 1.1.2
         
 #####: gobrew workspace
-Note: gobrew workspace alone specifies the currently set workspace. Use 'gobrew workspace' set to set workspace as $GOPATH and 'gobrew workspace unset' to remove.
+Note: 'gobrew workspace' echos the currently set workspace ($GOPATH). Use 'gobrew workspace set' to set your $GOPATH to the current working directory. Use 'gobrew workspace unset' to remove this setting.
 
         $ cd /path/to/workspace
         $ gobrew workspace set
         $ gobrew workspace unset
+        
+Visit [http://golang.org/doc/code.html#Workspaces](http://golang.org/doc/code.html#Workspaces) for more on workspaces.
         
         
         
