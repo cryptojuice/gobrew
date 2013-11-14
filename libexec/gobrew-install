@@ -24,6 +24,11 @@ else
     arch="386"
 fi
 
+if [ -z "$version" ]; then
+    echo "Must specify version"
+    exit 1
+fi
+
 download="https://go.googlecode.com/files/go${version}.${platform}-${arch}.tar.gz"
 
 set +e
