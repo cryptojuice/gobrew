@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# Summary: Accepts two commands set and unset 'gobrew workspace set' sets your current working directory as your workspace($GOPATH). 'gobrew workspace' displays what workspace has been set.
+# Summary: Run 'gobrew workspace set' from your workspace folder to set as $GOPATH.
+#
+# Usage: 'gobrew workspace' 'gobrew workspace set' 'gobrew workspace unset'
 
 set -e
 
