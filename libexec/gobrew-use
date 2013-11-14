@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Summary: Specify which go version to use globally. example: gobrew use 1.1.2
+# Summary: Specify which go version to use.
 
 set -e
 [ -n "$GOBREW_DEBUG" ] && set -x
