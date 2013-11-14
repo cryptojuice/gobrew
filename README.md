@@ -3,7 +3,7 @@ gobrew
 
 gobrew lets you easily switch between multiple versions of go. It is based on [rbenv](https://github.com/sstephenson/rbenv) and [pyenv](https://github.com/yyuu/pyenv).
 
-<img src="http://i.imgur.com/ySRSdPg.png" width="650">
+<img src="http://i.imgur.com/fHgvWnN.png" width="650">
 
 ###Installation
 ---------------
@@ -26,7 +26,15 @@ gobrew lets you easily switch between multiple versions of go. It is based on [r
 
 ###Usage
 --------
+
+1. Install a version of Go. Go versions are installed to ~/.gobrew/versions/.
+2. Choose what version of Go to use.
+3. Optional: Set your go workspace 
+
 Note: replace N.N.N with go version number.
 
-        $gobrew install N.N.N
-        $gobrew use N.N.N
+        $ gobrew install N.N.N
+        $ gobrew use N.N.N
+        $ cd /path/to/myworkspace
+        $ gobrew workspace set
+        
