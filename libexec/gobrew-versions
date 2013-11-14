@@ -10,6 +10,9 @@ set -e
 }
 
 # Iterate over installed versions and write to output
+if [ -d "/usr/local/go" ]; then
+    echo "system"
+fi
 for path in "${GOBREW_ROOT}/versions/"*; do
   if [ -d "$path" ]; then
     echo "${path##*/}"

@@ -18,10 +18,15 @@ do
         echo "gobrew: please specifiy version to use."
         exit 0
     elif [ "$v" = $1 ]; then
-        sed -i.bak "1s/.*/$1/g" "$GOBREW_ROOT/version"
+        sed -i "" "1s/.*/$1/g" "$GOBREW_ROOT/version"
         exit 1
     fi
 done
+ 
+if [ "system" = $1 ] && [ -d "/usr/local/go" ]; then
+    sed -i "" "1s/.*/$1/g" "$GOBREW_ROOT/version"
+    exit 1
+fi
 
 echo "gobrew: $1 not installed."
 exit 0
