@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -e
+
+[ -n "$GOBREW_DEBUG" ] && {
+    set -x
+}
+
+global_workspace_file="${GOBREW_ROOT}/workspace"
+
+if [ -e "$global_workspace_file" ]; then
+    echo "$global_workspace_file"
+fi

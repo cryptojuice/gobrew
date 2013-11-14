@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -e
+
+#GOBREW_DEBUG=true
+
+[ -n "$GOBREW_DEBUG" ] && {
+    set -x
+}
+
+WORKSPACE_FILE="$1"
+
+if [ -e "$WORKSPACE_FILE" ]; then
+    workspace=""
+    while read -a words; do
+        words="${words[0]}"
+        if [ -z "$workspace" ] && [ -n "$words" ]; then
+            workspace="$words"
+        fi
+    done < <( cat "$WORKSPACE_FILE" && echo )
+
+    if [ -n "$workspace" ]; then
+        echo "$workspace"
+        exit
+    fi
+fi
+
+exit 1
