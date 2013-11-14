@@ -24,8 +24,8 @@ gobrew lets you easily switch between multiple versions of go. It is based on [r
     
 3. Close and reopen shell window.
 
-###Usage
---------
+###Commands
+-----------
 
 1. Install a version of Go. Go versions are installed to ~/.gobrew/versions/.
 2. Choose what version of Go to use.
@@ -33,8 +33,23 @@ gobrew lets you easily switch between multiple versions of go. It is based on [r
 
 Note: replace N.N.N with go version number.
 
-        $ gobrew install N.N.N
-        $ gobrew use N.N.N
-        $ cd /path/to/myworkspace
+####: gobrew install
+Install a specified version of Go.
+
+        $ gobrew install 1.1.2
+        
+####: gobrew uninstall
+        $ gobrew uninstall 1.1.2
+
+#####: gobrew use
+        $ gobrew use 1.1.2
+        
+#####: gobrew workspace
+Note: gobrew workspace alone specifies the currently set workspace. Use 'gobrew workspace' set to set workspace as $GOPATH and 'gobrew workspace unset' to remove.
+
+        $ cd /path/to/workspace
         $ gobrew workspace set
+        $ gobrew workspace unset
+        
+        
         
