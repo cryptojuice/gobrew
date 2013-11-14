@@ -74,6 +74,7 @@ if [ -z "$print" ]; then
 fi
 
 mkdir -p "${GOBREW_ROOT}/"{shims,versions,cache}
+touch "${GOBREW_ROOT}/"{version,workspace}
 
 if [[ ":${PATH}:" != *:"${GOBREW_ROOT}/shims":* ]]; then
   echo 'export PATH="'${GOBREW_ROOT}'/shims:${PATH}"'
