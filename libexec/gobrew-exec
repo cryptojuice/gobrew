@@ -25,7 +25,18 @@ if [ -z "$GOBREW_VERSION" ]; then
   fi
 fi
 
+# Set the current Go workspace
+if [ -z "$GOBREW_WORKSPACE" ]; then
+    GOBREW_WORKSPACE="$(gobrew workspace)"
+fi
+
 GOROOT="$GOBREW_ROOT/versions/$GOBREW_VERSION"
+
+if [ -n "$GOBREW_WORKSPACE" ]; then
+    GOPATH="$GOBREW_WORKSPACE"
+    export GOPATH
+    export PATH="$GOPATH/bin:$PATH"
+fi
 
 # if the specified Go version lacks this bin, bail
 if [ ! -x "$GOROOT/bin/$1" ]; then
