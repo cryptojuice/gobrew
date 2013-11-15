@@ -1,0 +1,28 @@
+#! /usr/bin/env bash
+# Summary: List available versions of go. example: gobrew list
+
+
+set -e
+
+[ -n "$GOBREW_DEBUG"] && {
+    set -x
+}
+
+platform="$(uname -s | tr '[:upper:]' '[:lower:]')"
+
+if [ "$(uname -m)" = "x86_64" ]; then
+  arch="amd64"
+else
+  arch="386"
+fi
+
+echo "finding Go versions for $platform-$arch"
+
+go_downloads_list="https://code.google.com/p/go/downloads/list"
+curl -s $go_downloads_list \
+| grep "<a href=\"//go.googlecode.com/files/go.*\.tar\.gz" \
+| sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' \
+| sed -n 's/.*files\/\(go.*\.tar\.gz\)/\1/p' \
+| sed -n "s/go\(.*\)\.$platform-$arch.*/\1/p" \
+| uniq \
+| sort
