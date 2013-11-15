@@ -16,13 +16,18 @@ if [ -z "${GOBREW_WORKSPACE}" ]; then
     GOBREW_WORKSPACE="$(gobrew-workspace-file-read "$GOBREW_WORKSPACE_FILE" || true)"
 fi
 
+
 if [ -n "$1" ]; then
     if [ "$1" = "set" ]; then
+
+        $(cat /dev/null > $GOBREW_WORKSPACE_FILE)
         echo "$(pwd)" >> "$GOBREW_WORKSPACE_FILE"
-        export GOPATH="$(pwd)"
-        export PATH="GOPATH/bin:$PATH"
+        echo 'export GOPATH="'$(pwd)'"'
+        echo 'export PATH="'$(pwd)'/bin:$PATH"'
+        echo "gobrew: Please close and repoen terminal window."
         exit 1
     elif [ "$1" = "unset" ];then
+
         $(cat /dev/null > $GOBREW_WORKSPACE_FILE)
         echo "gobrew: Go workspace cleared."
         unset GOPATH
