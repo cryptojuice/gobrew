@@ -143,7 +143,7 @@ if [ -z "$1" ] || [ "$1" == "gobrew" ]; then
   [ -z "$usage" ] || exit
   echo
   echo "Some useful gobrew commands are:"
-  print_summaries commands install uninstall use version versions rehash workspace
+  print_summaries commands install uninstall use list version versions rehash workspace
   echo
   echo "See \`gobrew help <command>' for information on a specific command."
   echo "For full documentation, see: https://github.com/grobins2/gobrew#readme"
