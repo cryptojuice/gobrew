@@ -73,6 +73,18 @@ if [ -z "$print" ]; then
   exit 1
 fi
 
+# Set push workspace into PATH on init
+if [ -z "${GOBREW_WORKSPACE}" ]; then
+    GOBREW_WORKSPACE_FILE="$(gobrew-workspace-file)"
+    GOBREW_WORKSPACE="$(gobrew-workspace-file-read "$GOBREW_WORKSPACE_FILE" || true)"
+    if [[ ":${PATH}:" != *:"${GOPATH}":* ]]; then
+        echo 'export GOPATH="'${GOBREW_WORKSPACE}'"'
+        echo 'export PATH="'${GOBREW_WORKSPACE}'/bin:$PATH"'
+    fi
+fi
+
+
+
 mkdir -p "${GOBREW_ROOT}/"{shims,versions,cache}
 touch "${GOBREW_ROOT}/"{version,workspace}
 
