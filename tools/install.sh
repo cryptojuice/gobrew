@@ -34,5 +34,7 @@ esac
 echo "${export_command}" >> "$HOME/.$profile"
 echo "${eval_command}" >> "$HOME/.$profile"
 
+source "$HOME/.$profile"
+
 echo "\n\n\033[0;32mGobrew is now installed.\033[0m"
 echo "Run 'gobrew' command for information."
