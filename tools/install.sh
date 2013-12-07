@@ -1,4 +1,4 @@
-if [ -d "~/.gobrew" ]
+if [ -d "$HOME/.gobrew" ]
 then
   echo "\033[0;33mYou already have gobrew installed.\033[0m You'll need to remove ~/.gobrew if you want to install"
   exit
