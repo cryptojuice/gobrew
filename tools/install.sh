@@ -1,10 +1,10 @@
 if [ -d "~/.gobrew" ]
 then
-  echo "\033[0;33mYou already have gobrew installed.\033[0m You'll need to remove ~/.gobrew if you want to install"
+  echo -e "\033[0;33mYou already have gobrew installed.\033[0m You'll need to remove ~/.gobrew if you want to install"
   exit
 fi
 
-echo "\n\033[0;34mCloning gobrew...\033[0m"
+echo -e "\n\033[0;34mCloning gobrew...\033[0m"
 
 hash git >/dev/null && /usr/bin/env git clone https://github.com/grobins2/gobrew.git ~/.gobrew || {
   echo "You have to install git first"
@@ -34,5 +34,5 @@ esac
 echo "${export_command}" >> "$HOME/.$profile"
 echo "${eval_command}" >> "$HOME/.$profile"
 
-echo "\n\n\033[0;32mGobrew is now installed.\033[0m"
+echo -e "\n\n\033[0;32mGobrew is now installed.\033[0m"
 echo "Run 'gobrew' command for information."
