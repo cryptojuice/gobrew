@@ -16,17 +16,17 @@ for v in $VERSIONS
 do
     if [ -z $version ]; then
         echo "gobrew: please specifiy version to use."
-        exit 0
+        exit 1
     elif [ "$v" = $version ]; then
         echo $version > "$GOBREW_ROOT/version"
-        exit 1
+        exit 0
     fi
 done
  
 if [ "system" = $version ] && [ -d "/usr/local/go" ]; then
     echo $version > "$GOBREW_ROOT/version"
-    exit 1
+    exit 0
 fi
 
 echo "gobrew: $version not installed."
-exit 0
+exit 1
