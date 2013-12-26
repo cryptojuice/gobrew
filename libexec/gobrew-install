@@ -39,7 +39,7 @@ files_url=${GO_FILES_URL:=https://go.googlecode.com/files/}
 version_major="$(echo $version | cut -d . -f 1)"
 version_minor="$(echo $version | cut -d . -f 2)"
 
-if [ $platform="darwin" -a $version_minor -gt 1 ]; then
+if [ $platform = "darwin" -a $version_minor -gt 1 ]; then
 
     darwin_major="$(uname -r | cut -d . -f 1)"
 
