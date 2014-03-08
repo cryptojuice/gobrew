@@ -78,7 +78,7 @@ To upgrade run update script from .gobrew source with:
   If you want to uninstall it, just run
 
         $ cd ~
-        $ ./.gobrew/tools/upgrade.sh
+        $ ./.gobrew/tools/uninstall.sh
 
   from the command line and it’ll remove itself.
 
