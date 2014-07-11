@@ -6,7 +6,7 @@ fi
 
 echo -e "\n\033[0;34mCloning gobrew...\033[0m"
 
-hash git >/dev/null && /usr/bin/env git clone https://github.com/grobins2/gobrew.git ~/.gobrew || {
+hash git >/dev/null && /usr/bin/env git clone https://github.com/cryptojuice/gobrew.git ~/.gobrew || {
   echo "You have to install git first"
   exit
 }
@@ -36,5 +36,5 @@ echo "${eval_command}" >> "$HOME/.$profile"
 
 source "$HOME/.$profile"
 
-echo "\n\n\033[0;32mGobrew is now installed.\033[0m"
+echo "Gobrew is now installed."
 echo "Run 'gobrew' command for information."
