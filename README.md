@@ -27,7 +27,7 @@ gobrew lets you easily switch between multiple versions of go. It is based on [r
 
 1. Check out gobrew where you want it installed.
 
-        $ git clone git://github.com/grobins2/gobrew.git ~/.gobrew
+        $ git clone git://github.com/cryptojuice/gobrew.git ~/.gobrew
 
 2. Add the following to your shell config.
 
