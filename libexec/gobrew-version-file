@@ -12,7 +12,7 @@ set -e
 find_local_version_file() {
   local root="$1"
   while [ -n "$root" ]; do
-    if [ -e "${root}/version" ]; then
+    if [ ! -d "${root}/version" && -e "${root}/version" ]; then
       echo "${root}/version"
       exit
     fi
