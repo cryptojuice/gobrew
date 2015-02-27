@@ -18,11 +18,14 @@ fi
 
 echo "finding Go versions for $platform-$arch"
 
-go_downloads_list="https://code.google.com/p/go/downloads/list"
+# Allow the GO_DOWNLOADS_URL_LIST environment variable override the location of the
+# go installation files
+url=${GO_DOWNLOADS_LIST_URL:=http://golang.org/dl/}
+go_downloads_list=$url
 curl -s $go_downloads_list \
-| grep "<a href=\"//go.googlecode.com/files/go.*\.tar\.gz" \
+| grep -o "<a href=\".*//.*/golang/go.*\.tar\.gz" \
 | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' \
-| sed -n 's/.*files\/\(go.*\.tar\.gz\)/\1/p' \
-| sed -n "s/go\(.*\)\.$platform-$arch.*/\1/p" \
+| sed -n 's/.*golang\/\(go.*\.tar\.gz\)/\1/p' \
+| sed -n "s/go\(.*\)\.darwin-amd64.*/\1/p" \
 | uniq \
 | sort
