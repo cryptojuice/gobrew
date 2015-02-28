@@ -18,6 +18,8 @@ cd "$version_dir"
 
 platform="$(uname -s | tr '[:upper:]' '[:lower:]')"
 
+
+
 if [ "$(uname -m)" = "x86_64" ]; then
     arch="amd64"
 else
@@ -31,8 +33,25 @@ fi
 
 # Allow the GO_FILES_URL environment variable override the location of the
 # go installation files
-files_url=${GO_FILES_URL:=https://go.googlecode.com/files/}
-file_name="go${version}.${platform}-${arch}.tar.gz"
+files_url=${GO_FILES_URL:=https://golang.org/dl/}
+
+# Check for Mac OS X.
+version_major="$(echo $version | cut -d . -f 1)"
+version_minor="$(echo $version | cut -d . -f 2)"
+
+if [ $platform = "darwin" -a $version_minor -gt 1 ]; then
+
+    darwin_major="$(uname -r | cut -d . -f 1)"
+
+    if [ $darwin_major -lt 11 ]; then
+        file_name="go${version}.${platform}-${arch}-osx10.6.tar.gz"
+    else
+        file_name="go${version}.${platform}-${arch}-osx10.8.tar.gz"
+    fi
+else
+    file_name="go${version}.${platform}-${arch}.tar.gz"
+fi
+
 download=$files_url$file_name
 
 set +e
