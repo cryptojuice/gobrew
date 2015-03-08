@@ -20,17 +20,10 @@ echo "finding Go versions for $platform-$arch"
 
 # Allow the GO_DOWNLOADS_URL_LIST environment variable override the location of the
 # go installation files
-<<<<<<< HEAD
-url=${GO_DOWNLOADS_LIST_URL:=https://code.google.com/p/go/downloads/list?can=1&num=10000}
-go_downloads_list=$url
-curl -s $go_downloads_list \
-| grep "<a href=\"//.*/files/go.*\.tar\.gz" \
-=======
 url=${GO_DOWNLOADS_LIST_URL:=http://golang.org/dl/}
 go_downloads_list=$url
 curl -s $go_downloads_list \
 | grep -o "<a href=\".*//.*/golang/go.*\.tar\.gz" \
->>>>>>> 81273d3... [fix] list version function.
 | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' \
 | sed -n 's/.*golang\/\(go.*\.tar\.gz\)/\1/p' \
 | sed -n "s/go\(.*\)\.darwin-amd64.*/\1/p" \
