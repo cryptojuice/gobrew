@@ -26,6 +26,6 @@ curl -s $go_downloads_list \
 | grep -o "<a href=\".*//.*/golang/go.*\.tar\.gz" \
 | sed -e 's/<a .*href=['"'"'"]//' -e 's/["'"'"'].*$//' -e '/^$/ d' \
 | sed -n 's/.*golang\/\(go.*\.tar\.gz\)/\1/p' \
-| sed -n "s/go\(.*\)\.$platform-$arch*/\1/p" \
+| sed -n "s/go\(.*\)\.$platform-$arch.*/\1/p" \
 | uniq \
 | sort
