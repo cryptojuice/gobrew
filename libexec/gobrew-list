@@ -4,7 +4,7 @@
 
 set -e
 
-[ -n "$GOBREW_DEBUG"] && {
+[ -n "$GOBREW_DEBUG" ] && {
     set -x
 }
 
