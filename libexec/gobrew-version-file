@@ -12,8 +12,8 @@ set -e
 find_local_version_file() {
   local root="$1"
   while [ -n "$root" ]; do
-    if [ ! -d "${root}/version" ] && [ -e "${root}/version" ]; then
-      echo "${root}/version"
+    if [ ! -d "${root}/gobrew_version" ] && [ -e "${root}/gobrew_version" ]; then
+      echo "${root}/gobrew_version"
       exit
     fi
     root="${root%/*}"
