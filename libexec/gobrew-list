@@ -4,10 +4,6 @@
 
 set -e
 
-[ -n "$GOBREW_DEBUG" ] && {
-    set -x
-}
-
 platform="$(uname -s | tr '[:upper:]' '[:lower:]')"
 
 if [ "$(uname -m)" = "x86_64" ]; then

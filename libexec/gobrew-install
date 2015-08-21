@@ -4,10 +4,6 @@
 
 set -e
 
-if [ -z "$GOBREW_DEBUG"]; then
-  set -x
-fi
-
 version="$1"
 version_dir="$GOBREW_ROOT/versions/$version"
 

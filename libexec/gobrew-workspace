@@ -5,12 +5,6 @@
 
 set -e
 
-[ -n "$GOBREW_DEBUG" ] && {
-    set -x
-}
-
-    
-
 if [ -z "${GOBREW_WORKSPACE}" ]; then
     GOBREW_WORKSPACE_FILE="$(gobrew-workspace-file)"
     GOBREW_WORKSPACE="$(gobrew-workspace-file-read "$GOBREW_WORKSPACE_FILE" || true)"

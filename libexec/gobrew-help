@@ -12,9 +12,6 @@
 # The remainder of the comment block is displayed as extended
 # documentation.
 
-set -e
-[ -n "$GOBREW_DEBUG" ] && set -x
-
 command_path() {
   local command="$1"
   command -v gobrew-"$command" || command -v gobrew-sh-"$command" || true

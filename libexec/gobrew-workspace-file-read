@@ -2,12 +2,6 @@
 
 set -e
 
-#GOBREW_DEBUG=true
-
-[ -n "$GOBREW_DEBUG" ] && {
-    set -x
-}
-
 WORKSPACE_FILE="$1"
 
 if [ -e "$WORKSPACE_FILE" ]; then

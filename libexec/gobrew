@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -e
-[ -n "$GOBREW_DEBUG" ] && set -x
 
 resolve_link() {
   $(type -p greadlink readlink | head -1) "$1"

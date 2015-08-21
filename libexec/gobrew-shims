@@ -3,7 +3,6 @@
 # Usage: gobrew shims [--short]
 
 set -e
-[ -n "$GOBREW_DEBUG" ] && set -x
 
 # Provide gobrew completions
 if [ "$1" = "--complete" ]; then

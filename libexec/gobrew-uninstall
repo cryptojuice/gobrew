@@ -8,11 +8,6 @@
 # Bomb out if we hit an error, ever
 set -e
 
-# Verbose output in debug mode
-[ -n "$GOBREW_DEBUG" ] && {
-  set -x
-}
-
 # Pull the desired version out of ARGV
 version="$1"
 version_dir="$GOBREW_ROOT/versions/$version"

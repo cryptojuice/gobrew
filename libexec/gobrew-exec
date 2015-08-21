@@ -9,11 +9,6 @@
 # Bomb out if we hit an error, ever
 set -e
 
-# Verbose output in debug mode
-[ -n "$GOBREW_DEBUG" ] && {
-  set -x
-}
-
 # Set the current Go version
 if [ -z "$GOBREW_VERSION" ]; then
   GOBREW_VERSION="$(gobrew version)"
