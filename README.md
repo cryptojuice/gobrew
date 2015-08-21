@@ -46,15 +46,15 @@ gobrew lets you easily switch between multiple versions of go. It is based on [r
 #####: gobrew install
 Install a specified version of Go.
 
-        $ gobrew install 1.1.2
+        $ gobrew install 1.5
 
 #####: gobrew uninstall
-        $ gobrew uninstall 1.1.2
+        $ gobrew uninstall 1.5
 
 #####: gobrew use
 Sets which version of Go to use globally.
 
-        $ gobrew use 1.1.2
+        $ gobrew use 1.5
 
 #####: gobrew workspace
 Note: 'gobrew workspace' echos the currently set workspace ($GOPATH). Use 'gobrew workspace set' to set your $GOPATH to the current working directory. Use 'gobrew workspace unset' to remove this setting.
