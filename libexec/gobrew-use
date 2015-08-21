@@ -2,12 +2,6 @@
 # Summary: Specify which go version to use.
 
 set -e
-[ -n "$GOBREW_DEBUG" ] && set -x
-
-#if [ "$1" = "--complete" ]; then
-#    echo system
-#    exec gobrew-versions --bare
-#fi
 
 version="$1"
 VERSIONS=`ls -l $GOBREW_ROOT/versions | egrep '^d' | awk '{print $9}'`

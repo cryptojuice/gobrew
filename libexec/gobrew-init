@@ -5,11 +5,6 @@
 # Bomb out if we hit an error, ever
 set -e
 
-# Verbose output in debug mode
-[ -n "$GOBREW_DEBUG" ] && {
-  set -x
-}
-
 # Figure out what we're gonna print
 print=""
 for args in "$@"; do

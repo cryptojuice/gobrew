@@ -4,11 +4,6 @@
 # Bomb out if we hit an error, ever
 set -e
 
-# Verbose output in debug mode
-[ -n "$GOBREW_DEBUG" ] && {
-  set -x
-}
-
 # Create the shims directory if it doesn't already exist.
 SHIM_PATH="${GOBREW_ROOT}/shims"
 mkdir -p "$SHIM_PATH"
@@ -38,11 +33,6 @@ create_prototype_shim() {
 
 # Bomb out if we hit an error, ever
 set -e
-
-# Verbose output in debug mode
-[ -n "$GOBREW_DEBUG" ] && {
-  set -x
-}
 
 program="\${0##*/}"
 

@@ -1,12 +1,8 @@
 #! /usr/bin/env bash
-# Summary: Install a version of go. example: gobrew install 1.1.2
+# Summary: Install a version of go. example: gobrew install 1.5
 
 
 set -e
-
-[ -n "$GOBREW_DEBUG"] && {
-    set -x
-}
 
 version="$1"
 version_dir="$GOBREW_ROOT/versions/$version"
@@ -60,13 +56,13 @@ download=$files_url$file_name
 set +e
 
 (
-    if type wget &>/dev/null; then
-        echo "Installing $file_name"
-        wget -P "$GOBREW_ROOT/cache" "${download}"
-        tar -zxf "$GOBREW_ROOT/cache/$file_name" --strip-components 1
-    elif type curl &>/dev/null; then
+    if type curl &>/dev/null; then
         echo "Installing $file_name"
         curl -s -f "$download" > "$GOBREW_ROOT/cache/$file_name"
+        tar -zxf "$GOBREW_ROOT/cache/$file_name" --strip-components 1
+    elif type wget &>/dev/null; then
+        echo "Installing $file_name"
+        wget -P "$GOBREW_ROOT/cache" "${download}"
         tar -zxf "$GOBREW_ROOT/cache/$file_name" --strip-components 1
     else
         echo "error: please install \`curl\` or \`wget\` and try again" >&2

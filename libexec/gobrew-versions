@@ -4,11 +4,6 @@
 # Bomb out if we hit an error, ever
 set -e
 
-# Verbose output in debug mode
-[ -n "$GOBREW_DEBUG" ] && {
-  set -x
-}
-
 # Iterate over installed versions and write to output
 if [ -d "/usr/local/go" ]; then
     echo "system"
