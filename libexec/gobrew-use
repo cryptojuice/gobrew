@@ -4,7 +4,7 @@
 set -e
 
 version="$1"
-VERSIONS=`ls -l $GOBREW_ROOT/versions | egrep '^d' | awk '{print $9}'`
+VERSIONS=`ls -l $GOBREW_ROOT/versions | egrep '^d' | awk '{print $NF}'`
 
 for v in $VERSIONS
 do
