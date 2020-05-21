@@ -5,10 +5,10 @@ gobrew lets you easily switch between multiple versions of go. It is based on [r
 
 <img src="http://i.imgur.com/MBzShbh.png" width="650">
 
-###Installation
+### Installation
 ---------------
 
-####The automatic installer
+#### The automatic installer
 ----------------------------
 
   You can install this via the command line with either `curl` or `wget`.
@@ -22,7 +22,7 @@ gobrew lets you easily switch between multiple versions of go. It is based on [r
   wget --no-check-certificate https://raw.github.com/grobins2/gobrew/master/tools/install.sh -O - | sh
 
 
-####The manual way
+#### The manual way
 ------------------
 
 1. Check out gobrew where you want it installed.
@@ -40,23 +40,23 @@ gobrew lets you easily switch between multiple versions of go. It is based on [r
 
 3.  Source your shell config file (or reopen shell session).
 
-###Commands
+### Commands
 -----------
 
-#####: gobrew install
+##### : gobrew install
 Install a specified version of Go.
 
         $ gobrew install 1.5
 
-#####: gobrew uninstall
+##### : gobrew uninstall
         $ gobrew uninstall 1.5
 
-#####: gobrew use
+##### : gobrew use
 Sets which version of Go to use globally.
 
         $ gobrew use 1.5
 
-#####: gobrew workspace
+##### : gobrew workspace
 Note: 'gobrew workspace' echos the currently set workspace ($GOPATH). Use 'gobrew workspace set' to set your $GOPATH to the current working directory. Use 'gobrew workspace unset' to remove this setting.
 
         $ cd /path/to/workspace
@@ -65,15 +65,15 @@ Note: 'gobrew workspace' echos the currently set workspace ($GOPATH). Use 'gobre
 
 Visit [http://golang.org/doc/code.html#Workspaces](http://golang.org/doc/code.html#Workspaces) for more on workspaces.
 
-###Useful
+### Useful
 
-####Updates
+#### Updates
 
 To upgrade run update script from .gobrew source with:
         $ cd ~
         $ ./.gobrew/tools/upgrade.sh
 
-####Uninstalling
+#### Uninstalling
 
   If you want to uninstall it, just run
 
